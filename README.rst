@@ -31,13 +31,18 @@ Quickstart
 
 Clone this repo to somewhere on your Python path.
 
-Install all of the required dependencies for a GeoDjango project: https://docs.djangoproject.com/en/dev/ref/contrib/gis/install/geolibs/
+Install all of the required dependencies for a GeoDjango project: 
+https://docs.djangoproject.com/en/dev/ref/contrib/gis/install/geolibs/
+
 Setup a PostGIS (or other spatial) database
+
 Add django.contrib.gis to your django project's INSTALLED_APPS
+
 Add 'djangomapfiles' to your django project's INSTALLED_APPS.
 
 Add it to your main urls.py: 
-```
+
+```python
 from djangomapfiles import urls as mapurls
 
 urlpatterns += patterns(''
@@ -47,4 +52,4 @@ urlpatterns += patterns(''
 Features
 --------
 
-* TODO
+* 
