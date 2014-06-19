@@ -42,14 +42,14 @@ Add 'djangomapfiles' to your django project's INSTALLED_APPS.
 
 Add it to your main urls.py: 
 
-```python
+    from djangomapfiles import urls as mapurls
 
-from djangomapfiles import urls as mapurls
+    urlpatterns += patterns(''
+        url(r'^mapfiles/', include(mapurls)),
+    )
 
-urlpatterns += patterns(''
-    url(r'^mapfiles/', include(mapurls)),
-)
-```
+
+
 Features
 --------
 
