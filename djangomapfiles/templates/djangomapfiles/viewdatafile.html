@@ -1,0 +1,122 @@
+{% extends 'base.html' %}
+  {% block title %} KPBS Geographic Data Files Viewer {% endblock %}
+{% block extrahead %}
+
+    {% load jslibs %}
+    {% load map_libs %}
+
+    {% load_js_libs "underscore" %}
+    {% load_js_libs "jquery" %}
+    {% load_map_lib "leaflet" %}
+
+    <style>
+     #map-container {
+       left: 0px;
+       top: 0px;
+       position: absolute;
+       width: 100%;
+       height: 100%;
+       z-index: 0;
+     }
+    </style>
+    <script type="text/javascript" src="{{STATIC_URL}}main/js/utils.js"></script>
+
+    <script type="text/javascript">
+     function map_init(map_div) {
+       var tileMapQuest = L.tileLayer('http://{s}.mqcdn.com/tiles/1.0.0/map/{z}/{x}/{y}.png', {
+	 subdomains: ['otile1','otile2','otile3','otile4'],
+	 attribution: 'Map tiles by <a href="http://open.mapquestapi.com/">MapQuest</a>. Data &copy; by <a href="http://www.openstreetmap.org/copyright">OpenStreetMap contributors</a>.',
+	 maxZoom: 18
+       });
+       var map_layers = [tileMapQuest];
+       var map = L.map('map-container', {
+	 center: [{{ lat }}, {{ lon }}],
+	 zoom: {% if zoom %}{{ zoom }}{% else %}9{% endif %},
+	 layers: map_layers,
+	 worldCopyJump: false
+       });
+       // This is where features are added to the map //
+       {% if features %}
+       {% for feat in features %}
+       var feature = new L.geoJson({{ feat.geometry.geojson|safe }}, 
+				   {
+	   onEachFeature: function (feature, layer) { 
+	     onEachFeature(feature, layer, {{feat.id}}) 
+	   },
+	   style: style
+	 }).addTo(map);
+       {% endfor %}
+       {% endif %}
+       // ###### //
+
+       // Leaflet Feature Styling  //
+       function style(feature) {
+	 return {
+	   fillColor: '#0066ff',
+           weight: 2,
+           opacity: 0.5,
+           color: '#0066ff',
+           dashArray: '3',
+           fillOpacity: 0.2 
+	 };
+       }
+       // ## End Feature Styling ## // 
+
+       // *** Leaflet Feature Behavior *** //
+       function onEachFeature(feature, layer, id) {
+	 feature.properties = {"id" : id};
+	 layer.on('click', function (e) {
+	   if (feature.properties.popupSet) {
+	     map.removeLayer(map.last_marker);
+	     map.last_marker = L.marker(e.latlng).addTo(map)
+					 .bindPopup(feature.properties.text)
+					 .openPopup();
+	     $("#feature_content").html(feature.properties.text);
+	   } else {
+	     var feat_url = "/mapfiles/feature/view/" + feature.properties.id;
+	     var get_some = $.ajax({
+	       dataType: "json",
+	       type: "GET",
+	       url: feat_url
+	     });
+	     get_some.done(function(data) {
+	       var desired_data = filter_queryset_by_fields(data, ['field_name', 'field_value']);
+	       var crunched_data = crunch_vals(desired_data);
+	       var content = "";
+	       for (var i = 0; i < crunched_data.length; i++) {
+		 content += _.first(crunched_data[i]) + " : " + _.last(crunched_data[i]) + "<br />";
+	       }
+	       if (map.last_marker) {
+		 map.removeLayer(map.last_marker);
+	       }
+	       map.last_marker = L.marker(e.latlng).addTo(map)
+			 .bindPopup(content)
+			 .openPopup();
+	       $("#feature_content").html(content);
+	       feature.properties.text = content;
+	     });
+	     feature.properties.popupSet = true;
+	   }
+	 });
+       }
+       // End onEachFeature //
+     }
+    </script>
+{% endblock %}
+
+{% block content %}
+<div class="content">
+  <h3>File Viewer: {{ filename }}</h3>
+  <div id="map-container"></div>
+  <div id="data" class="clearfix"></div>
+</div>
+<div class="content">
+  <h4>Click on a feature</h4>
+  <div id="feature_content"></div>
+</div>
+<script type="text/javascript">
+ $(document).ready(function() {
+   map_init("map-container");
+  });
+</script>
+{% endblock %}

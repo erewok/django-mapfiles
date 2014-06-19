@@ -1,0 +1,19 @@
+{% extends 'base.html' %}
+{% block extrahead %}
+<link rel="stylesheet" href="{{ STATIC_URL }}main/css/shape-editor.css">
+{% endblock %}
+
+{% block content %}
+<div class="content-main">
+  <section id="shape-editor">
+    <h3>Delete Geographic Datafile</h3>
+    {% if err_msg %}
+    <span class="error">{{ err_msg }} </span>
+    {% endif %}
+    <form method="post">{% csrf_token %}
+      <p>Are you sure you want to delete {{ datafile.filename }}?</p>
+      <input type="submit" value="submit" /> <input type="submit" value="cancel" onclick="window.history.go(-1); return false;"/>
+    </form>
+  </section>
+</div>
+{% endblock %}

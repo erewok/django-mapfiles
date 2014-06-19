@@ -1,0 +1,20 @@
+{% extends 'base.html' %}
+{% block title %}KPBS Geographic Data Importer{% endblock %}
+{% block extrahead %}
+<link rel="stylesheet" href="{{ STATIC_URL }}main/css/shape-editor.css">
+{% endblock %}
+
+{% block content %}
+<div class="content-main">
+  <section id="file_manager">
+    <h3>Import Geographic Datafile</h3>
+    {% if err_msg %}
+    <span class="error">{{ err_msg }} </span>
+    {% endif %}
+    <form enctype="multipart/form-data" method="post" action="import">
+      {{ form.as_p }}{% csrf_token %}
+      <input type="submit" value="submit" />
+    </form>
+  </section>
+</div>
+{% endblock %}

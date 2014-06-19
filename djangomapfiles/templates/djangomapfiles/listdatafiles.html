@@ -1,0 +1,37 @@
+{% extends 'base.html' %}
+{% block title %}KPBS Georgraphic Data File Viewer {% endblock %}
+
+{% block extrahead %}
+<link rel="stylesheet" href="{{ STATIC_URL }}/main/css/shape-editor.css">
+{% endblock %}
+
+{% block content %}
+
+<div class="content-main">
+  <div class="content">
+    <section id="file_manager">
+      {% if datafiles %}
+      <h3>Uploaded Files</h3>
+      <nav id="file_manager_nav">
+	{% for file in datafiles %}
+	<ul class="shapefile clearfix">
+	  <li>{{ file.name }}:</li>
+	  <li>Uploaded: {{ file.first_uploaded }}</li>
+	  <li>Last Edited: {{ file.updated }}</li>
+	  {% if file.processed %}
+	  <li><a href="{% url "view_datafile" file.id %}">View Datafile</a></li>
+	  <li><a href="{% url "edit_datafile" file.id %}">Edit Datafile</a></li>
+	  <li><a href="{% url "delete_datafile" file.id %}">Delete Datafile</a></li>
+	  {% else %}
+	  <li class="Unfinished">This item has not finished processing yet.</li>
+	  {% endif %}
+	</ul>
+	{% endfor %}
+      </nav>
+      {% endif %}
+    <button class="importer" type="button" onClick='window.location="/mapfiles/import";'>Import New Geographic Data File</button>
+    </section>
+  </div>
+  <section class="footer">
+  </section>
+{% endblock %}
