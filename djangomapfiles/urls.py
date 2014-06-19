@@ -1,5 +1,5 @@
 from django.conf.urls import patterns, include, url
-from mapfiles import views
+from . import views
 
 ## File manager: CRUD patterns
 urlpatterns = patterns('',

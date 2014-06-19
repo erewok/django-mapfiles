@@ -5,7 +5,7 @@ import json
 
 from django.contrib.gis.geos import GEOSGeometry
 
-from mapfiles.models import DataFile, Feature, Attribute
+from djangomapfiles.models import DataFile, Feature, Attribute
 from .exceptions import AcsException
 
 

@@ -18,7 +18,7 @@ from django.contrib.gis.geos import GEOSGeometry
 from django.contrib.gis.geos.collections import MultiPolygon
 from django.contrib.gis.geos.collections import MultiLineString
 
-from mapfiles.models import DataFile, Feature, Attribute
+from djangomapfiles.models import DataFile, Feature, Attribute
 from .exceptions import ProcessingException
 from .exceptions import ShapefileException
 

@@ -95,9 +95,9 @@ def delete_datafile(request, file_id,
     return render(request, template_file, temp_vars)
 
 
-###################################################
-### Feature viewers have been lifted totally from main ###
-###################################################
+#######################
+### Feature viewers ###
+#######################
 
 @cache_page(ONE_MINUTE)
 def view_feature(request, feat_id):

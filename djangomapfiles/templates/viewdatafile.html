@@ -1,5 +1,5 @@
 {% extends 'base.html' %}
-  {% block title %} KPBS Geographic Data Files Viewer {% endblock %}
+  {% block title %}Geographic Data Files Viewer {% endblock %}
 {% block extrahead %}
 
     {% load jslibs %}
@@ -19,7 +19,7 @@
        z-index: 0;
      }
     </style>
-    <script type="text/javascript" src="{{STATIC_URL}}main/js/utils.js"></script>
+    <script type="text/javascript" src="{{STATIC_URL}}djangomapfiles/js/djangomapfiles.js"></script>
 
     <script type="text/javascript">
      function map_init(map_div) {
