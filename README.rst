@@ -37,8 +37,13 @@ Add django.contrib.gis to your django project's INSTALLED_APPS
 Add 'djangomapfiles' to your django project's INSTALLED_APPS.
 
 Add it to your main urls.py: 
+```
+from djangomapfiles import urls as mapurls
 
-
+urlpatterns += patterns(''
+    url(r'^mapfiles/', include(mapurls)),
+)
+```
 Features
 --------
 
