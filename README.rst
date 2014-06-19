@@ -12,7 +12,8 @@ This application is not ready yet for production (see "Problems" below), but I a
 About six months ago, I first found myself setting up a Django mapping application, and I was unsure
 how to go about mapping Shapefiles or how to get map data and display it. 
 
-Thus,
+Thus, this application may provide a great starting point for anyone looking to start mapping in Django. Eventually,
+you can import this and use it to upload and view shapefiles and other mapping data types.
 
 
 Problems
